@@ -11,7 +11,7 @@ NextIconSVG,
 PrevIconSVG
 } = Icons;
 
-console.log(Icons);
+
 const clientId = '7fa0472ee03857f6fc1f3f580711b4de';
 /*
 const resolveUrl = 'https://soundcloud.com/roywoodsofficial/roy-woods-how-i-feel';

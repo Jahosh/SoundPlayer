@@ -1,5 +1,5 @@
-var webpack = require('webpack');
-var path = require('path');
+const webpack = require('webpack');
+const path = require('path');
 
 module.exports = {
 	devtool: 'inline-source-map',
@@ -9,7 +9,7 @@ module.exports = {
 		'./src'
 	],
 	output: {
-	  path: path.join(__dirname, 'public'),
+	  path: './dist',
 	  filename: 'bundle.js'
 	},
 	resolve: {
@@ -18,11 +18,23 @@ module.exports = {
 	},
 	module: {
 		loaders: [
-		{
-			test: /\.jsx?$/,
-			exclude: /node_modules/,
-			loaders: ['react-hot', 'babel?presets[]=react,presets[]=es2015']
-		}
+		  {
+			  test: /\.jsx?$/,
+			  exclude: /node_modules/,
+		 	  loaders: ['react-hot', 'babel?presets[]=react,presets[]=es2015']
+		  },
+		  {
+			  test: /\.css$/,
+			  loader: 'style-loader'
+		  },
+		  {
+			  test: /\.css$/,
+				loader: 'css-loader',
+				query: {
+					modules: true,
+					localIdentName: '[name]__[local]__[hash:base64:5]'
+				}
+		  }
 		]
 	},
 	plugins: [
