@@ -8,7 +8,7 @@ import Stats from './Stats';
 class SearchBar extends React.Component {
   constructor(props) {
     super(props);
-
+    
     this.state = {
       queried: false,
       tracksLen: 0,
@@ -39,7 +39,6 @@ class SearchBar extends React.Component {
   }
   handleSubmit(e) {
     e.preventDefault();
-
     let term = document.getElementById('search').value;
     this.fetchSongs(term);
   }
@@ -64,7 +63,6 @@ class SearchBar extends React.Component {
       });
   }
   embedSongs(song, songsLen, artistName){
-
     SC.oEmbed(song, { auto_play: true }).then(function(song) {
       document.getElementById('player').innerHTML = song.html;
       document.getElementById('artist').innerHTML = artistName;
@@ -77,6 +75,7 @@ class SearchBar extends React.Component {
     this.props.onUpdate(term);
   }
   showStats(){
+
     if (this.state.queried) {
       return (
         <Stats length={this.state.tracksLen} artistName={this.state.artistName} />

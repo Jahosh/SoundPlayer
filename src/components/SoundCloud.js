@@ -29,7 +29,6 @@ class CustomPlayer extends React.Component {
     updateArtist(e) {
       e.preventDefault()
       let artist = document.getElementById('getSong').value;
-
       if (artist === '') {
         alert('please enter a artist name');
         return;
