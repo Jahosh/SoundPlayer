@@ -1,27 +1,23 @@
 import React from 'react';
 import { render } from 'react-dom';
 import Header from './components/Header/Header';
-import Player from './containers/PlayerContainer';
+import PlayerContainer from './containers/PlayerContainer';
 import Footer from './components/Footer/Footer';
-import initSoundCloud from './config/SC';
+import scConfig from './config/SC';
+import styles from './styles/index.js';
 
 class App extends React.Component {
   constructor(props) {
 	  super(props);
-
-    this.state = {
-      searches: [],
-      artist: null
-    };
 	}
   componentWillMount(){
-    initSoundCloud()
+		scConfig()
   }
 	render(){
 	  return (
 			<div className="container">
 			  <Header />
-				<Player />
+				<PlayerContainer />
 				<Footer />
 			</div>
 		);

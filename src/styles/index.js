@@ -14,6 +14,9 @@ const styles = {
   },
   playButton: {
     height: '100px'
+  },
+  redBorder: {
+    border: '1px solid red'
   }
 }
 

@@ -1,21 +1,10 @@
 import React from 'react';
 import Styles from '../styles/index.js'
 import { SoundPlayerContainer } from 'react-soundplayer/addons';
+import Player from './Player/Player';
 import { Progress, Icons } from 'react-soundplayer/components';
+import scConfig from '../config/SC';
 
-const {
-SoundCloudLogoSVG,
-PlayIconSVG,
-PauseIconSVG,
-NextIconSVG,
-PrevIconSVG
-} = Icons;
-
-
-const clientId = '7fa0472ee03857f6fc1f3f580711b4de';
-/*
-const resolveUrl = 'https://soundcloud.com/roywoodsofficial/roy-woods-how-i-feel';
-*/
 
 class CustomPlayer extends React.Component {
     constructor(props){
@@ -24,6 +13,7 @@ class CustomPlayer extends React.Component {
         artist: '',
         resolveUrl: 'https://soundcloud.com/roywoodsofficial/roy-woods-how-i-feel'
       }
+      console.log(props);
 
     }
     updateArtist(e) {
@@ -47,53 +37,19 @@ class CustomPlayer extends React.Component {
       })
       document.getElementById('getSong').value = '';
     }
+    componentWillMount(){
+
+    }
     render() {
         return (
           <div className="text-center">
-            <SoundPlayerContainer resolveUrl={this.state.resolveUrl} clientId={clientId}>
-                <Player onSubmit={this.updateArtist.bind(this)} />
+            <SoundPlayerContainer resolveUrl={this.state.resolveUrl} clientId={scConfig.clientId}>
+                <Player onSubmit={this.props.handleArtistSearch} />
             </SoundPlayerContainer>
           </div>
         );
     }
 }
 
-class Player extends React.Component {
-  constructor(props){
-    super(props)
-  }
-    play() {
-        let { soundCloudAudio, playing } = this.props;
-        if (playing) {
-            soundCloudAudio.pause();
-        } else {
-            soundCloudAudio.play();
-        }
-    }
-    render() {
-        let { track, playing } = this.props;
-
-        if (!track) {
-            return <div>Loading...</div>;
-        }
-
-        return (
-            <div>
-                <h2>{track.title}</h2>
-                <h3>{track.user.username}</h3>
-                <button className="btn btn-success" onClick={this.play.bind(this)}>
-                    {playing ? 'Pause' : 'Play'}
-                </button>
-                <form onSubmit={this.props.onSubmit.bind(this)}>
-                  <input className="form-control"
-                    id="getSong"
-                    placeholder="artist" />
-                  <br />
-                  <button type='submit' style={Styles.buttonStyle} className="btn btn-primary">Submit</button>
-                </form>
-            </div>
-        );
-    }
-}
 
 export default CustomPlayer
