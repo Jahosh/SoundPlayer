@@ -15,6 +15,9 @@ class Player extends React.Component {
             soundCloudAudio.play();
         }
     }
+    componentDidMount(){
+       
+    }
     render() {
         let { track, playing } = this.props;
 
@@ -36,6 +39,7 @@ class Player extends React.Component {
                   <input className="form-control"
                     id="getSong"
                     placeholder="artist" />
+                    {this.props.searches}
                   <br />
                   <button type='submit' className="btn btn-primary">Submit</button>
                 </form>
