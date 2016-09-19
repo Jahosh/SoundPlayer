@@ -16,7 +16,8 @@ class PlayerContainer extends React.Component {
     this.state = {
       searches: [],
       selectedArtist: null,
-      resolveUrl: 'https://soundcloud.com/roywoodsofficial/roy-woods-how-i-feel'
+      resolveUrl: 'https://soundcloud.com/roywoodsofficial/roy-woods-how-i-feel',
+      indexCache: []
     };
   }
   componentWillMount(){
@@ -24,33 +25,58 @@ class PlayerContainer extends React.Component {
   }
   componentDidMount(){
 
+
   }
   handleArtistSearch(e){
     e.preventDefault()
     let artist = document.getElementById('getSong').value;
-
-    if (artist === '') {
+    if (artist.length === 0) {
       alert('please enter a artist name');
+      return;
+    }
+    this.getSongs(artist);
+  }
+  getSongs(artist){
+    if (typeof artist != 'string'){
+      alert('invalid artist name');
       return;
     }
     SC.get('/tracks', {
       q: artist,
-      limit: 50
+      limit: 200
     })
       .then( (tracks) => {
-        console.log(tracks);
         document.getElementById('getSong').value = '';
-        const resolveUrl = tracks[0].permalink_url
-        let artwork = tracks[0].user.avatar_url
+        this.filterSongs(tracks, artist);
+        
+      })
+        .catch( (error) => {
+          console.log(error);
+        });
+     
+  }
+  filterSongs(tracks, artist){
+    //return songs that have a label name & title's containe the artist name
+    const filteredSongs = _.filter(tracks, (o) => {
+     return o.label_name != null && o.title.indexOf(artist) != -1;
+    });  
+    console.log(filteredSongs);
+    this.randomNumberGen(filteredSongs, artist);
+  }
+  randomNumberGen(tracks, artist){
+    let cache = this.state.indexCache;
+    const randomNumber = Math.floor( (Math.random() * tracks.length));
+    console.log(randomNumber);
+    cache.push(randomNumber);
+     const resolveUrl = tracks[randomNumber].permalink_url
+        let artwork = tracks[randomNumber].artwork_url
         this.appendAvatar(artwork);
         this.setState({
           searches: this.state.searches.concat(artist),
           selectedArtist: artist,
           resolveUrl: resolveUrl
         });
-      });
   }
-
   appendAvatar(url){
     if (url === null) {
       document.getElementById('avatar').innerHTML = 'test'
@@ -62,7 +88,7 @@ class PlayerContainer extends React.Component {
   render(){
     return (
       <div>
-        <div className="col-lg-12 text-center">
+        <div style={{border: "1px solid black" }} className="col-lg-12 text-center">
           <SoundPlayerContainer resolveUrl={this.state.resolveUrl} clientId={scId}>
             <Player searches={this.state.searches} onSubmitArtist={this.handleArtistSearch.bind(this)} />
           </SoundPlayerContainer>
